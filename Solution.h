@@ -5,6 +5,8 @@
 #include <math.h>
 #include <limits>
 #include "PbData.h"
+#include "Node.h"
+#include "Edge.h"
 
 using namespace std;
 
@@ -39,6 +41,8 @@ class Solution {
     	void computeCost();
 
     	vector<int> toolsDiff(int i, int j);
+
+    	vector<Node*> jobNodes(int j, int c);
 
     	void printCost();
 

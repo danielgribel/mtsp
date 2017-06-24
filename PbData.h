@@ -15,6 +15,9 @@ class PbData {
 		// Required tools by jobs
 		vector< vector<int> > requiredTools;
 
+		// Optional tools for jobs
+		vector< vector<int> > optionalTools;
+
 		// Number of jobs
 		int n;
 
@@ -23,6 +26,8 @@ class PbData {
 
 		// Machine capacity
 		int c;
+
+		void fillOptionalTools(int i);
 
     public:
 
@@ -34,9 +39,11 @@ class PbData {
 
     	int C() { return c; };
 
-    	vector< vector<int> > getRequiredTools() { return requiredTools; }; 
+    	vector< vector<int> > getRequiredTools() { return requiredTools; };
 
-    	vector<int> missingTools(int i);
+    	vector< vector<int> > getOptionalTools() { return optionalTools; };
+
+    	vector<int> getOptionalTools(int i) { return optionalTools[i]; };
 };
 
 #endif

@@ -49,6 +49,34 @@ vector<int> Solution::toolsDiff(int i, int j) {
     return result;
 }
 
+// Get job nodes considering job j and column c of assigned tools
+vector<Node*> Solution::jobNodes(int j, int c) {
+	vector<int> optionalTools = pbData->getOptionalTools(j);
+	vector<int> baseTools (assignedTools[j].size() - 1);
+	vector<bool> prohibited (pbData->M(), false); 
+	vector<Node*> nodes;
+
+	int q = 0;
+	for(int i = 0; i < assignedTools[j].size(); i++) {
+		if(i != c) {
+			baseTools[q] = assignedTools[j][i];
+			prohibited[assignedTools[j][i]] = true;
+			q++;	
+		}
+	}
+
+	for(int i = 0; i < optionalTools.size(); i++) {
+		if(!prohibited[optionalTools[i]]) {
+			vector<int> nd = baseTools;
+			nd.push_back(optionalTools[i]);
+			Node * node = new Node(nd, j);
+			nodes.push_back(node);
+		}
+	}
+
+	return nodes;
+}
+
 void Solution::printCost() {
 	cout << cost << endl;
 }

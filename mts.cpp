@@ -16,7 +16,7 @@
 
 using namespace std;
 
-#define InputFile "../data/Tabela3/L1-1.txt"
+#define InputFile "../data/Tabela3/test.txt"
 
 PbData * load(string dataFileName) {
     // Open the data file
@@ -105,7 +105,7 @@ Solution * randomSolution(PbData * pbData) {
 			assignedTools[i][j] = requiredTools[i][j];
 		}
 		// Get the difference between assigned and required sets and shuffle it
-		vector<int> remaining = shuffle(pbData->missingTools(i));
+		vector<int> remaining = shuffle(pbData->getOptionalTools(i));
 		// For the remaining tools (in case C > nb tools required by the job), assign random tools not assigned yet
 		for(int q = nbToolsJob; q < C; q++) {
 			assignedTools[i][q] = remaining[q-nbToolsJob];
