@@ -16,7 +16,7 @@
 
 using namespace std;
 
-#define InputFile "../data/Tabela3/test.txt"
+// #define InputFile "../data/Tabela3/L20-5.txt"
 
 PbData * load(string dataFileName) {
     // Open the data file
@@ -199,20 +199,20 @@ vector<Solution*> selectSurvivors(vector<Solution*> largePopulation, const int P
 	return population;
 }
 
-void solve() {
+void solve(string filename) {
 	// Population size
 	const int Pi = 100;
 
 	// Max population size
-	const int Mx = 500;
+	const int Mx = 400;
 
 	// Number of Iterations
-	const int It = 10000;
+	const int It = 2000;
 
 	// Initial population size
-	const int Ip = 1000;
+	const int Ip = 100;
 
-	PbData * pbData = load(InputFile);
+	PbData * pbData = load(filename);
 
 	clock_t begin = clock();
 
@@ -222,24 +222,45 @@ void solve() {
 	Solution * off;
 	int bestCost = MAX_INT;
 
+	vector< vector<int> > bestAssignment;
+	vector<int> bestScheduling;
+
 	for(int i = 0; i < It; i++) {
 		p1 = tournamentSelection(population); 
 		p2 = tournamentSelection(population);
 		off = crossover(p1, p2, pbData);
 		population.push_back(off);
+		off->localSearch();
+
 		if(off->getCost() < bestCost) {
 			bestCost = off->getCost();
+			bestAssignment = off->getAssignedTools();
+			bestScheduling = off->getScheduling();
 		}
 		if(population.size() > Mx) {
 			population = selectSurvivors(population, Pi);
 		}
+		// cout << "it = " << i << endl;
 	}
+
+	// Solution * s = population[0];
+	// s->localSearch();
+	// s->printCost();
+	// s->printAssignedTools();
+	// s->printScheduling();
+
+	Solution * bst = new Solution(bestAssignment, bestScheduling, pbData);
+	// bst->printCost();
+	// bst->printAssignedTools();
+	// bst->printScheduling();
 
 	clock_t end = clock();
   	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
   	
-  	cout << "Best cost: " << bestCost << endl;
-	cout << "-- Time: " << elapsed_secs << endl;
+ //  	cout << "Best cost: " << bestCost << endl;
+	// cout << "-- Time: " << elapsed_secs << endl;
+
+  	cout << bestCost << " " << elapsed_secs << endl;
 
 	deletePopulation(population);
 	delete pbData;
@@ -247,7 +268,9 @@ void solve() {
 
 int main(int argc, char** argv) {
 	int seed = atoi(argv[1]);
+	string filename = argv[2];
 	srand(seed);
-  	solve();
+	// srand(1607);
+  	solve(filename);
 	return 0;
 }

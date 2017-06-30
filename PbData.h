@@ -18,6 +18,8 @@ class PbData {
 		// Optional tools for jobs
 		vector< vector<int> > optionalTools;
 
+		vector< vector<bool> > isRequired;
+
 		// Number of jobs
 		int n;
 
@@ -44,6 +46,9 @@ class PbData {
     	vector< vector<int> > getOptionalTools() { return optionalTools; };
 
     	vector<int> getOptionalTools(int i) { return optionalTools[i]; };
+
+    	// Return if job j requires tool i
+    	bool isToolRequired(int j, int i) { return isRequired[j][i]; };
 };
 
 #endif

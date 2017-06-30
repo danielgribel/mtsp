@@ -1,12 +1,12 @@
 #ifndef Solution_h
 #define Solution_h
 
-#include <algorithm>
 #include <math.h>
 #include <limits>
 #include "PbData.h"
-#include "Node.h"
 #include "Edge.h"
+#include "ShortestPath.h"
+#include "Graph.h"
 
 using namespace std;
 
@@ -42,13 +42,27 @@ class Solution {
 
     	vector<int> toolsDiff(int i, int j);
 
-    	vector<Node*> jobNodes(int j, int c);
+    	int switchCost(const vector<int> tools1, const vector<int> tools2);
+
+    	vector<Node*> jobNodes(int j, int c, int &nodeId);
+
+    	Graph * buildGraph(int col);
+
+    	void localSearch();
+
+    	void localSearch(int col);
 
     	void printCost();
 
     	void printAssignedTools();
 
     	void printScheduling();
+
+    	int minDistance(vector<int> dist, vector<bool> sptSet, int V);
+
+    	vector<int> getPath(vector<int> parent, int j, int src);
+
+    	ShortestPath * dijkstra(Graph * graph, int src);
 };
 
 #endif

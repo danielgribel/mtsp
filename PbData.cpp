@@ -8,6 +8,8 @@ PbData::PbData(int n, int m, int c, vector< vector<int> > requiredTools) {
 	this->c = c;
 	this->requiredTools = requiredTools;
 	this->optionalTools = vector< vector<int> > (n);
+	this->isRequired = vector< vector<bool> > (n, vector<bool>(m, true));
+
 	for(int i = 0; i < n; i ++) {
 		fillOptionalTools(i);
 	}
@@ -25,6 +27,10 @@ void PbData::fillOptionalTools(int i) {
 
     set_difference( sAll.begin(), sAll.end(), sRequired.begin(), sRequired.end(),
         back_inserter( result ) );
+
+    for(int q = 0; q < result.size(); q++) {
+    	isRequired[i][result[q]] = false;
+    }
 
     optionalTools[i] = result;
 }
